@@ -40,15 +40,15 @@ koalaRouter.post('/',  (req, res) => {
 
 koalaRouter.put('/:id', (req, res) => {
   console.log('req.params', req.params.id);
-  let body = req.body
+  //let body = req.body
   let id = req.params.id
-  let {readytotranser } = req.body;
+  let {readytotransfer } = req.body;
   let sqlText = `
   UPDATE "koala"
-  SET "readytotranser" = $1
+  SET "readytotransfer" = $1
   WHERE "id" = $2
   `
-  let params = [readytotranser,id];
+  let params = [readytotransfer,id];
 pool.query(sqlText, params).then( result => {
     res.sendStatus(204);
 }).catch(error => {

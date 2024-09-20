@@ -48,7 +48,8 @@ function addKoala(koalaToAdd) {
       console.log('Error in POST', error)
       alert('Unable to add koala at this time. Please try again later.');
     });
-}
+
+  }
 
 
 function renderKoalas(koala){
@@ -57,17 +58,22 @@ let viewKoalas = document.getElementById('viewKoalas');
 
  for (let property of koala){
   viewKoalas.innerHTML += 
+
+
   `<tr>
         <td>${property.name}</td>
         <td>${property.age}</td>
         <td>${property.favoriteColor}</td>
-        <td>${property.readytotranser}</td> 
+        <td>${property.readytotransfer ? 'Y' : 'N'}</td> 
         <td>${property.notes}
-        <td>      
-        <button onClick = "handleChange(${koala.id})">Ready to transfer</button>
-        </td>
         <td>
-        <button onClick="handleDelete(${koala.id})">Delete</button>
+          ${property.readytotransfer 
+            ? `<button onClick="transferKoala(${property.id})">Ready to transfer</button>` 
+            : ''}
+        </td>
+        
+        <td>
+        <button onClick="deleteKola(${property.id})">Delete</button>
       </tr>
   
   `
@@ -75,9 +81,8 @@ let viewKoalas = document.getElementById('viewKoalas');
 }
 
 
-
-function handleChange(koalaId) { 
-  let data = {readytotransfer: Y};
+function transferKoala(koalaId) { 
+  let data = {readytotransfer: false};
   axios.put(`/koalas/${koalaId}`, data).then(response => {
     getKoalas()
   }).catch((error) => {
@@ -87,7 +92,8 @@ function handleChange(koalaId) {
   
 }
 
-function handleDelete(koalaId) {
+function deleteKola(koalaId) {
+  console.log('Deleting koala with ID:', koalaId);
   axios.delete(`/koalas/${koalaId}`).then((response) => {
     getKoalas()
   }).catch((error) => {
